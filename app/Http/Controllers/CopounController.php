@@ -14,7 +14,11 @@ class CopounController extends Controller
      */
     public function index()
     {
+
+        $col =  collect( ["A" ,"B","C"]) ;
         return Copoun::all();
+
+
     }
 
     /**

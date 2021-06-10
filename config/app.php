@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        // Repo Provider
+        //  Repository Pattern
+        App\Providers\RepositoryServiceProvider::class
+
     ],
 
     /*

@@ -50,6 +50,9 @@
                 <x-button class="ml-3">
                     {{ __('Log in') }}
                 </x-button>
+
+
+                <a href="{{ url('/auth/redirect') }}"   >GITHUB</a>
             </div>
         </form>
     </x-auth-card>

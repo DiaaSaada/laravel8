@@ -10,6 +10,11 @@ class Post extends Model
     use HasFactory;
 
 
+    /**
+     * @var string
+     */
+    private string $title;
+
     public function user(){
         return $this->belongsTo(User::class);
     }
