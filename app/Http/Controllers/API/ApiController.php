@@ -57,6 +57,8 @@ class ApiController extends Controller
     {
 
         Post::factory()->count(20)->create();
+
+        return $this->postRepository->all()  ;
         return response()->json( $this->postRepository->all() );
 
     }

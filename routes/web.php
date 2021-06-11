@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,11 @@ Route::get('/auth/redirect', function () {
     return Socialite::driver('github')->redirect();
 });
 
+Route::get('post/create', [PostController::class, 'create'])
+    ->middleware('auth')->name('post.create');
+Route::post('post/store', [PostController::class, 'store'])
+    ->middleware('auth')->name('post.store');
+
 Route::get('/login/github/callback', function () {
     $github_user = Socialite::driver('github')->user();
 
@@ -56,3 +62,6 @@ Route::get('/login/github/callback', function () {
         return redirect('/');
     }
 });
+
+
+
