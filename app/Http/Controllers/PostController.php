@@ -60,9 +60,11 @@ class PostController extends Controller
      * @param Copoun $copoun
      * @return Response
      */
-    public function show(Copoun $copoun)
+    public function show()
     {
-        //
+        $title = 'awdawddddddd' ;
+        Post::where([ 'title' => $title]) ;
+        return Post::whereTitle($title)->first();
     }
 
     /**

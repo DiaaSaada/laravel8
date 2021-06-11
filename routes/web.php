@@ -37,6 +37,9 @@ Route::get('post/create', [PostController::class, 'create'])
 Route::post('post/store', [PostController::class, 'store'])
     ->middleware('auth')->name('post.store');
 
+Route::get('post/show', [PostController::class, 'show'])
+    ->middleware('auth')->name('post.show');
+
 Route::get('/login/github/callback', function () {
     $github_user = Socialite::driver('github')->user();
 
