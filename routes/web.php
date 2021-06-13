@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
+| routes are loaded by the RouteServic*eProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
 */
@@ -26,20 +28,34 @@ Route::get('/dashboard', function () {
 require __DIR__ . '/auth.php';
 
 
-use Laravel\Socialite\Facades\Socialite;
+Route::middleware('auth')->group(function () {
+    Route::get('post/create', [PostController::class, 'create'])
+        ->middleware('auth')->name('post.create');
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('github')->redirect();
+    Route::post('post/store', [PostController::class, 'store'])
+        ->middleware('auth')->name('post.store');
+
+    Route::get('post/index', [PostController::class, 'index'])
+        ->middleware('auth')->name('post.index');
+
+    Route::get('post/{slug}', [PostController::class, 'showBySlug'])
+        ->name('posts.show');
+
+
+    //-------------  Category Routes  --------------------------------
+    //-------------------------------------------------------------
+    Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
+
+    Route::post('category/store', [CategoryController::class, 'store'])->name('category.store');
+
+    Route::get('category/index',  [CategoryController::class, 'index'])->name('category.index');
+
+    Route::get('category/{slug}', [CategoryController::class, 'show'])->name('category.show');
+
 });
 
-Route::get('post/create', [PostController::class, 'create'])
-    ->middleware('auth')->name('post.create');
-Route::post('post/store', [PostController::class, 'store'])
-    ->middleware('auth')->name('post.store');
 
-Route::get('post/show', [PostController::class, 'show'])
-    ->middleware('auth')->name('post.show');
-
+//------------------------- GITHUB LOGIN --------------------------
 Route::get('/login/github/callback', function () {
     $github_user = Socialite::driver('github')->user();
 
@@ -53,7 +69,7 @@ Route::get('/login/github/callback', function () {
             , 'name' => $github_user->getName()
             // , 'bio' => $github_user->user['bio'] ?? ''
             , 'email' => $github_user->getEmail() ?? "{$github_user->getId()}@github.com"],
-        );
+    );
 
     if ($user) {
 
@@ -66,5 +82,10 @@ Route::get('/login/github/callback', function () {
     }
 });
 
+use Laravel\Socialite\Facades\Socialite;
 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
 
+//------------------------- END GITHUB LOGIN --------------------------

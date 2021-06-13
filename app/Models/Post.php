@@ -11,17 +11,28 @@ class Post extends Model
 
 
     protected $fillable = [
-        'title' ,
-        'body' ,
-        'user_id' ,
-    ] ;
+        'title',
+        'body',
+        'user_id',
+        'slug',
+        'summary',
+        'is_featured',
+        'featured_image',
+        'lang',
+    ];
 
-    /**
-     * @var string
-     */
-    private string $title;
+    protected $casts = [
+        'is_featured' => 'boolean',
+    ];
 
-    public function user(){
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }

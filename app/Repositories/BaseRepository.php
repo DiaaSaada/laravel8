@@ -4,15 +4,12 @@ namespace App\Repositories;
 
 use App\Model\User;
 use App\Models\Post;
-use App\Traits\UploadAble;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
-class PostRepository implements PostRepositoryInterface
+abstract class BaseRepository
 {
     protected $model;
-    use UploadAble;
 
     public function __construct(Post $post)
     {
@@ -43,18 +40,7 @@ class PostRepository implements PostRepositoryInterface
 
     public function create(array $data)
     {
-
-
-
-
-        return $this->model->create(Arr::collapse([
-
-            $data, ['user_id' => auth()->id(),
-                'slug' => Str::slug($data['title']),
-                'lang' => 'en',
-            ]]));
-
-
+        return $this->model->create($data);
     }
 
     public function update(array $data, $id)
@@ -76,35 +62,4 @@ class PostRepository implements PostRepositoryInterface
 
         return $post;
     }
-
-
-    public function findBySlug(string $slug)
-    {
-        if (true) {
-            return $this->_showBySlug_cache($slug);
-        }
-        return $this->_showBySlug_db($slug);
-
-    }
-
-
-    function _showBySlug_db(string $slug)
-    {
-        sleep(11);
-        return Post::whereSlug($slug)->firstOrFail();
-
-
-    }
-
-
-    function _showBySlug_cache(string $slug)
-    {
-
-        return cache()->remember("posts.{$slug}", 3600, function () use ($slug) {
-
-            return $this->_showBySlug_db($slug);
-        });
-
-    }
-
 }

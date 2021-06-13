@@ -13,10 +13,14 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __( 'Dashboard' ) }}
                     </x-nav-link>
-                <x-nav-link :href="route('post.create')" :active="request()->routeIs('dashboard')">
-                        {{ __('Post') }}
+                <x-nav-link :href="route('post.index')" :active="request()->routeIs('post.index')">
+                        {{ __( 'Blog ') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
+                        {{ __( 'Category' ) }}
                     </x-nav-link>
                 </div>
             </div>
